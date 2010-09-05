@@ -693,6 +693,16 @@
          do (setf (aref result i) (mem-aref ptr el-type i)))
       result)))
 
+(defmethod translate-to-foreign (value (type fixed-array))
+  (if (null value)
+      (null-pointer)
+      (foreign-alloc (fixed-array-element-type type) :count (length value) :initial-contents value)))
+
+(defmethod free-translated-object (value (type fixed-array) param)
+  (declare (ignore param))
+  (unless (null-pointer-p value)
+    (foreign-free value)))
+
 (define-g-boxed-cstruct rectangle "GdkRectangle"
   (x :int :initform 0)
   (y :int :initform 0)
@@ -745,7 +755,7 @@
              (axes (fixed-array :double 2))
              (state modifier-type)
              (is-hint :int16)
-             (device (g-object device))
+             (device (g-object gdk-device))
              (x-root :double)
              (y-root :double))
             ((:expose) event-expose
@@ -797,7 +807,7 @@
             ((:proximity-in
               :proximity-out) event-proximity
              (time :uint32)
-             (device (g-object device)))
+             (device (g-object gdk-device)))
             ((:client-event) event-client
              (message-time gdk-atom)
              (data-format :ushort)
