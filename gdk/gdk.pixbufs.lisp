@@ -106,3 +106,90 @@
   (gdk-pixbuf-get-from-image pixbuf image (null-pointer) src-x src-y dest-x dest-y width height))
 
 (export 'pixbuf-get-from-image)
+
+(defcfun gdk-pixbuf-scale-simple (g-object pixbuf :already-referenced)
+  (src (g-object pixbuf))
+  (dest-width :int)
+  (dest-height :int)
+  (interp-type gdk-interp-type))
+
+(defun pixbuf-scale-simple (pixbuf dest-width dest-height &key (interp-type :bilinear))
+  (gdk-pixbuf-scale-simple pixbuf dest-width dest-height interp-type))
+
+(export 'pixbuf-scale-simple)
+
+(defcfun (pixbuf-scale "gdk_pixbuf_scale") :void
+  (src (g-object pixbuf))
+  (dest (g-object pixbuf))
+  (dest-x :int)
+  (dest-y :int)
+  (dest-width :int)
+  (dest-height :int)
+  (offset-x :double)
+  (offset-y :double)
+  (scale-x :double)
+  (scale-y :double)
+  (interp-type gdk-interp-type))
+
+(export 'pixbuf-scale)
+
+(defcfun (pixbuf-composite-color-simple "gdk_pixbuf_composite_color_simple") (g-object pixbuf :already-referenced)
+  (src (g-object pixbuf))
+  (dest-width :int)
+  (dest-height :int)
+  (interp-type gdk-interp-type)
+  (overall-alpha :int)
+  (check-size :int)
+  (color-1 :uint32)
+  (color-2 :uint32))
+
+(export 'pixbuf-composite-color-simple)
+
+(defcfun (pixbuf-composite "gdk_pixbuf_composite") :void
+  (src (g-object pixbuf))
+  (dest (g-object pixbuf))
+  (dest-x :int)
+  (dest-y :int)
+  (dest-width :int)
+  (dest-height :int)
+  (offset-x :double)
+  (offset-y :double)
+  (scale-x :double)
+  (scale-y :double)
+  (interp-type gdk-interp-type)
+  (overall-alpha :int))
+
+(export 'pixbuf-composite)
+
+(defcfun (pixbuf-composite-color "gdk_pixbuf_composite_color") :void
+  (src (g-object pixbuf))
+  (dest (g-object pixbuf))
+  (dest-x :int)
+  (dest-y :int)
+  (dest-width :int)
+  (dest-height :int)
+  (offset-x :double)
+  (offset-y :double)
+  (scale-x :double)
+  (scale-y :double)
+  (interp-type gdk-interp-type)
+  (overall-alpha :int)
+  (check-x :int)
+  (check-y :int)
+  (check-size :int)
+  (color-1 :uint32)
+  (color-2 :uint32))
+
+(export 'pixbuf-composite-color)
+
+(defcfun (pixbuf-rotate-simple "gdk_pixbuf_rotate_simple") (g-object pixbuf :already-referenced)
+  (src (g-object pixbuf))
+  (angle gdk-pixbuf-rotation))
+
+(export 'pixbuf-rotate-simple)
+
+(defcfun (pixbuf-flip "gdk_pixbuf_flip") (g-object pixbuf :already-referenced)
+  (src (g-object pixbuf))
+  (horizontal :boolean))
+
+(export 'pixbuf-flip)

@@ -435,6 +435,22 @@
   (:bilevel 0)
   (:full 1))
 
+(define-g-enum "GdkInterpType"
+    gdk-interp-type
+    (:export t :type-initializer "gdk_interp_type_get_type")
+  (:nearest 0)
+  (:tiles 1)
+  (:bilinear 2)
+  (:hyper 3))
+
+(define-g-enum "GdkPixbufRotation"
+    gdk-pixbuf-rotation
+    (:export t :type-initializer "gdk_pixbuf_rotation_get_type")
+  (:none 0)
+  (:counterclockwise 90)
+  (:upsidedown 180)
+  (:clockwise 270))
+
 (define-g-enum "GdkColorspace" colorspace ()
   :rgb)
 
