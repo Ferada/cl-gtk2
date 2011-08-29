@@ -589,7 +589,7 @@
   (g-value-take-boxed gvalue-ptr (translate-to-foreign proxy (make-foreign-type info :return-p nil))))
 
 (defmethod boxed-parse-g-value (gvalue-ptr (info g-boxed-opaque-wrapper-info))
-  (translate-from-foreign (boxed-copy-fn info (g-value-get-boxed gvalue-ptr)) (make-foreign-type info :return-p nil)))
+  (translate-from-foreign (g-value-get-boxed gvalue-ptr) (make-foreign-type info :return-p t)))
 
 (defmethod boxed-set-g-value (gvalue-ptr (info g-boxed-opaque-wrapper-info) proxy)
   (g-value-set-boxed gvalue-ptr (translate-to-foreign proxy (make-foreign-type info :return-p nil))))
