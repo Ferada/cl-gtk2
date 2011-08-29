@@ -116,24 +116,24 @@
   (gtk-selection-data-set-pixbuf selection-data data))
 
 (defun foreign-to-int-or-array (ptr fmt len)
-  (let ((ctype (case fmt (8 :int8) (16 :int16) (32 :int32))))
-    (if (= len 1)
+  (let ((ctype (case fmt (8 :int8) (16 :int16) (32 :long)))
+        (clen (/ len (if (= fmt 32) (foreign-type-size :long) fmt))))
+    (if (= clen 1)
         (mem-ref ptr ctype)
-        (let ((array (make-array len :element-type 'fixnum)))
-          (loop for i from 0 below len
+        (let ((array (make-array clen :element-type 'fixnum)))
+          (loop for i from 0 below clen
              do (setf (aref array i) (mem-aref ptr ctype)))
           array))))
 
-;; As of writing, gtk is not 64-bit clean.  This may not work as intended
-;; for fmt>8.
 (defun selection-get (selection-data)
   (let ((fmt (gtk-selection-data-get-format selection-data))
         (len (gtk-selection-data-get-length selection-data))
         (ptr (gtk-selection-data-get-data selection-data)))
   (values
-   (if (= fmt 8)
-       (foreign-string-to-lisp ptr :count len)
-       (foreign-to-int-or-array ptr fmt (/ len (/ fmt 8))))
+   (cond
+     ((= len -1) nil)
+     ((= fmt 8) (foreign-string-to-lisp ptr :count len))
+     (t (foreign-to-int-or-array ptr fmt len)))
    (gtk-selection-data-get-data-type selection-data)
    fmt)))
 

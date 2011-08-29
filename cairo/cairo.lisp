@@ -62,3 +62,32 @@ to the expose event handler."
 
 (defun gdk-cairo-reset-clip (drawable &optional (context cl-cairo2:*context*))
   (gdk_cairo_reset_clip (slot-value context 'cl-cairo2:pointer) drawable))
+
+;; This looks nearly as bad as it actually is.  gdk_pixbuf only supports
+;; 32-bit pixels / 8 bits per channel, with RGB bytes in _reverse order_
+;; from cairo.  Needs big-endian testing.
+(defun gdk-pixbuf-from-cairo-image (image)
+  (let ((width (cairo:image-surface-get-width image))
+        (height (cairo:image-surface-get-height image))
+        (src (cairo:image-surface-get-data image :pointer-only t))
+        (src-stride (cairo:image-surface-get-stride image))
+        (format (cairo:image-surface-get-format image)))
+    (unless (or (eq format :argb32) (eq format :rgb24))
+      (error "Unsupported format: ~A~%" format))
+    (let* ((pixbuf (gdk::gdk-pixbuf-new :rgb (eq format :argb32) 8
+                                        width height))
+           (dest-stride (gdk:pixbuf-rowstride pixbuf))
+           (dest (gdk:pixbuf-pixels pixbuf)))
+      (flet ((offset (x c y s) (+ (* x 4) c (* y s))))
+        (dotimes (y height)
+          (dotimes (x width)
+            (setf (mem-ref dest :uint8 (offset x 0 y dest-stride))
+                  (mem-ref src :uint8 (offset x 2 y src-stride)))
+            (setf (mem-ref dest :uint8 (offset x 1 y dest-stride))
+                  (mem-ref src :uint8 (offset x 1 y src-stride)))
+            (setf (mem-ref dest :uint8 (offset x 2 y dest-stride))
+                  (mem-ref src :uint8 (offset x 0 y src-stride)))
+            (setf (mem-ref dest :uint8 (offset x 3 y dest-stride))
+                  (mem-ref src :uint8 (offset x 3 y src-stride))))))
+      pixbuf)))
+

@@ -107,6 +107,13 @@
 
 (export 'pixbuf-get-from-image)
 
+(defcfun gdk-pixbuf-new (g-object pixbuf :already-referenced)
+  (colorspace colorspace)
+  (has-alpha :boolean)
+  (bits-per-sample :int)
+  (width :int)
+  (height :int))
+
 (defcfun gdk-pixbuf-scale-simple (g-object pixbuf :already-referenced)
   (src (g-object pixbuf))
   (dest-width :int)

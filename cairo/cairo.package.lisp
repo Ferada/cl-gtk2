@@ -6,4 +6,5 @@
            #:gdk-cairo-set-source-pixbuf
            #:gdk-cairo-set-source-pixmap
            #:gdk-cairo-region
-           #:gdk-cairo-reset-clip))
+           #:gdk-cairo-reset-clip
+           #:gdk-pixbuf-from-cairo-image))

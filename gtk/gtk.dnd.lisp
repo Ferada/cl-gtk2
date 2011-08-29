@@ -32,8 +32,10 @@
   (actions gdk-drag-action))
 
 (defun drag-dest-set (widget flags targets actions)
-  (with-foreign-boxed-array (n-targets targets-ptr target-entry targets)
-    (gtk-drag-dest-set widget flags targets-ptr n-targets actions)))
+  (if (eq targets nil)
+      (gtk-drag-dest-set widget flags (null-pointer) 0 actions)
+      (with-foreign-boxed-array (n-targets targets-ptr target-entry targets)
+        (gtk-drag-dest-set widget flags targets-ptr n-targets actions))))
 
 (export 'drag-dest-set)
 
