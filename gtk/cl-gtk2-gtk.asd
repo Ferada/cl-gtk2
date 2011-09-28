@@ -60,6 +60,7 @@
                (:file "gtk.paned")
                (:file "gtk.child-properties")
                (:file "gtk.widget")
+               (:file "gtk.tree-view-dnd")
                (:file "gtk.builder")
                (:file "gtk.assistant")
                (:file "gtk.link-button")
@@ -81,6 +82,7 @@
                
                (:file "gtk.demo")
                (:file "gtk.timer")
+               (:file "gtk.finalize-classes")
                (:module "demo-files"
                         :pathname "demo/"
                         :components ((:plain-file "demo1" :type "ui")
