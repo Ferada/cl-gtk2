@@ -2,7 +2,7 @@
 
 (defctype g-type gsize)
 
-(eval-when (:load-toplevel :compile-toplevel)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gtype-make-fundamental-type (x)
     (ash x 2)))
 
