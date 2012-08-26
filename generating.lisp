@@ -50,7 +50,6 @@
                    "GtkCellLayout"
                    "GtkEditable"
                    "GtkFileChooser"
-                   "GtkFileChooserEmbed"
                    "GtkTreeModel"
                    "GtkTreeDragSource"
                    "GtkTreeDragDest"

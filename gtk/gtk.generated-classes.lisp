@@ -1120,10 +1120,6 @@
    (g-string :free-from-foreign t :free-to-foreign t)
    "gtk_file_chooser_get_preview_uri" nil))
 
-(define-g-interface "GtkFileChooserEmbed"
-    file-chooser-embed
-    (:export t))
-
 (define-g-interface "GtkTreeModel"
     tree-model
     (:export t :type-initializer "gtk_tree_model_get_type"))
@@ -2313,7 +2309,7 @@
 (define-g-object-class "GtkFileChooserWidget" file-chooser-widget
                        (:superclass v-box :export t :interfaces
                         ("AtkImplementorIface" "GtkBuildable" "GtkFileChooser"
-                         "GtkFileChooserEmbed" "GtkOrientable")
+                         "GtkOrientable")
                         :type-initializer "gtk_file_chooser_widget_get_type")
                        nil)
 
