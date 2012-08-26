@@ -71,6 +71,7 @@
   (dummy12 :int)
   (dummy13 :int)
   (dummy14 :pointer))
+(defctype %text-iter (:struct %text-iter))
 
 (defcfun gtk-text-iter-copy :pointer
   (iter :pointer))

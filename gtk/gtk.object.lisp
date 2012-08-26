@@ -3,6 +3,7 @@
 (defcstruct %gtk-object
   (parent-instance gobject::%g-initially-unowned)
   (flags :uint32))
+(defctype %gtk-object (:struct %gtk-object))
 
 (defun gtk-object-flags-as-integer (object)
   (foreign-slot-value (pointer object) '%gtk-object 'flags))

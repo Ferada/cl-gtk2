@@ -34,6 +34,7 @@
   (:allocation allocation-cstruct)
   (:window :pointer)
   (:parent :pointer))
+(defctype %gtk-widget (:struct %gtk-widget))
 
 (defun widget-state (widget)
   (convert-from-foreign (foreign-slot-value (pointer widget) '%gtk-widget :state) 'state-type))
