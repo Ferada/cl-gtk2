@@ -92,6 +92,8 @@
   (width :int)
   (height :int))
 
+(export 'draw-rectangle)
+
 (defcfun (draw-arc "gdk_draw_arc") :void
   (drawable (g-object drawable))
   (gc (g-object graphics-context))

@@ -752,7 +752,7 @@
              (axes (fixed-array :double 2))
              (state :uint)
              (button :uint)
-             (device (g-object device))
+             (device (g-object gdk-device))
              (x-root :double)
              (y-root :double))
             ((:scroll) event-scroll
@@ -761,7 +761,7 @@
              (y :double)
              (state modifier-type)
              (direction scroll-direction)
-             (device (g-object device))
+             (device (g-object gdk-device))
              (x-root :double)
              (y-root :double))
             ((:motion-notify) event-motion
