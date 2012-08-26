@@ -12,6 +12,7 @@
                (:file "glib.gerror")
                (:file "glib.utils")
                (:file "glib.rand")
+               (:file "glib.markup")
 
                (:file "gobject.init")
                (:file "gobject.ffi.package")
