@@ -611,7 +611,8 @@
    (:cffi visible-region drawable-visible-region (g-boxed-foreign region :return)
           "gdk_drawable_get_visible_region" nil)))
 
-(define-g-object-class "GdkWindow" gdk-window (:superclass drawable)
+(define-g-object-class "GdkWindow" gdk-window (:superclass drawable
+                                               :type-initializer "gdk_window_object_get_type")
    (#+gtk-2.18
     (cursor gdk-window-cursor "cursor"
             "GdkCursor" t t)
