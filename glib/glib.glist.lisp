@@ -16,6 +16,7 @@
   (data :pointer)
   (next :pointer)
   (prev :pointer))
+(defctype g-list (:struct g-list))
 
 (defcfun g-list-first (:pointer g-list) (list (:pointer g-list)))
 
@@ -50,6 +51,7 @@
 (defcstruct g-slist
   (data :pointer)
   (next :pointer))
+(defctype g-slist (:struct g-slist))
 
 (defcfun g-slist-alloc (:pointer g-slist))
 

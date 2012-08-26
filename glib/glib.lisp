@@ -201,8 +201,11 @@ In this example, for every @code{class}, @code{(initialize-gobject-class-g-type 
 ;; Core Application Support - The Main Event Loop
 
 (defcstruct g-main-loop)
+(defctype g-main-loop (:struct g-main-loop))
 (defcstruct g-main-context)
+(defctype g-main-context (:struct g-main-context))
 (defcstruct g-source)
+(defctype g-source (:struct g-source))
 (defcstruct g-source-funcs
   (prepare :pointer)
   (check :pointer)
@@ -210,23 +213,29 @@ In this example, for every @code{class}, @code{(initialize-gobject-class-g-type 
   (finalize :pointer)
   (closure-callback :pointer)
   (closure-marshal :pointer))
+(defctype g-source-funcs (:struct g-source-funcs))
 (defcstruct g-source-callback-funcs
   (ref :pointer)
   (unref :pointer)
   (get :pointer))
 (defcstruct g-cond)
+(defctype g-cond (:struct g-cond))
 (defcstruct g-mutex)
+(defctype g-mutex (:struct g-mutex))
 
 (defcstruct g-poll-fd
   (fd :int) ;; TODO: #if defined (G_OS_WIN32) && GLIB_SIZEOF_VOID_P == 8
   (events :ushort)
   (revent :ushort))
+(defctype g-poll-fd (:struct g-poll-fd))
 
 (defcstruct g-time-val
   (seconds :long)
   (microseconds :long))
+(defctype g-time-val (:struct g-time-val))
 
 (defcstruct g-thread)
+(defctype g-thread (:struct g-thread))
 
 (defcfun (g-main-loop-new "g_main_loop_new" :library glib) (:pointer g-main-loop)
   (context (:pointer g-main-context))

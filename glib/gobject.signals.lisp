@@ -6,6 +6,7 @@
   (:parent-instance g-closure)
   (:object :pointer)
   (:function-id :int))
+(defctype lisp-signal-handler-closure (:struct lisp-signal-handler-closure))
 
 (defun finalize-lisp-signal-handler-closure (closure)
   (let* ((function-id (foreign-slot-value closure 'lisp-signal-handler-closure :function-id))

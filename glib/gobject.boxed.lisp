@@ -94,21 +94,25 @@
                             :slots (mapcar #'parse-cstruct-slot slots)))
 
 (defmacro define-g-boxed-cstruct (name g-type-name &body slots)
-  (let ((cstruct-description (parse-cstruct-definition name slots)))
+  (let ((cstruct-description (parse-cstruct-definition name slots))
+	(cstruct-name (generated-cstruct-name name))
+	(cunion-name (generated-cunion-name name)))
     `(progn
        (defstruct ,name
          ,@(iter (for slot in (cstruct-description-slots cstruct-description))
                  (for name = (cstruct-slot-description-name slot))
                  (for initform = (cstruct-slot-description-initform slot))
                  (collect (list name initform))))
-       (defcstruct ,(generated-cstruct-name name)
+       (defcstruct ,cstruct-name
          ,@(iter (for slot in (cstruct-description-slots cstruct-description))
                  (for name = (cstruct-slot-description-name slot))
                  (for type = (cstruct-slot-description-type slot))
                  (for count = (cstruct-slot-description-count slot))
                  (collect `(,name ,type ,@(when count `(:count ,count))))))
-       (defcunion ,(generated-cunion-name name)
-         (,name ,(generated-cstruct-name name)))
+       (defctype ,cstruct-name (:struct ,cstruct-name))
+       (defcunion ,cunion-name
+         (,name ,cstruct-name))
+       (defctype ,cunion-name (:union ,cunion-name))
        (eval-when (:compile-toplevel :load-toplevel :execute)
          (setf (get ',name 'g-boxed-foreign-info)
                (make-g-boxed-cstruct-wrapper-info :name ',name
@@ -380,22 +384,26 @@
   (intern (format nil "~A-CUNION" (symbol-name symbol)) (symbol-package symbol)))
 
 (defun generate-cstruct-1 (struct)
-  `(defcstruct ,(generated-cstruct-name (cstruct-description-name struct))
-     ,@(iter (for slot in (cstruct-description-slots struct))
-             (collect `(,(cstruct-slot-description-name slot) ,(cstruct-slot-description-type slot)
-                         ,@(when (cstruct-slot-description-count slot)
-                                 `(:count ,(cstruct-slot-description-count slot))))))))
+  (let ((cstruct-name (generated-cstruct-name (cstruct-description-name struct))))
+    `((defcstruct ,cstruct-name
+        ,@(iter (for slot in (cstruct-description-slots struct))
+                (collect `(,(cstruct-slot-description-name slot) ,(cstruct-slot-description-type slot)
+                            ,@(when (cstruct-slot-description-count slot)
+                                   `(:count ,(cstruct-slot-description-count slot)))))))
+      (defctype ,cstruct-name (:struct ,cstruct-name)))))
 
 (defun generate-c-structures (structure)
   (iter (for str in (all-structures structure))
         (for cstruct = (var-structure-resulting-cstruct-description str))
-        (collect (generate-cstruct-1 cstruct))))
+        (nconcing (generate-cstruct-1 cstruct))))
 
 (defun generate-variant-union (struct)
-  `(defcunion ,(generated-cunion-name (var-structure-name struct))
-     ,@(iter (for str in (all-structures struct))
-             (collect `(,(var-structure-name str)
-                         ,(generated-cstruct-name (var-structure-name str)))))))
+  (let ((cunion-name (generated-cunion-name (var-structure-name struct))))
+    `((defcunion ,cunion-name
+        ,@(iter (for str in (all-structures struct))
+                (collect `(,(var-structure-name str)
+                            ,(generated-cstruct-name (var-structure-name str))))))
+      (defctype ,cunion-name (:union ,cunion-name)))))
 
 (defun generate-structure-1 (str)
   (let ((name (var-structure-name str)))
@@ -480,7 +488,7 @@
 (defmacro define-g-boxed-variant-cstruct (name g-type-name &body slots)
   (let* ((structure (parse-variant-structure-definition name slots)))
     `(progn ,@(generate-c-structures structure)
-            ,(generate-variant-union structure)
+            ,@(generate-variant-union structure)
             ,@(generate-structures structure)
             (eval-when (:compile-toplevel :load-toplevel :execute)
               (setf (get ',name 'g-boxed-foreign-info)

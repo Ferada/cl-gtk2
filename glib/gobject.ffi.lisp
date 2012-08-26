@@ -99,12 +99,15 @@ Example:
 (defcstruct g-type-interface
   (:type g-type-designator)
   (:instance-type g-type-designator))
+(defctype g-type-interface (:struct g-type-interface))
 
 (defcstruct g-type-class
   (:type g-type-designator))
+(defctype g-type-class (:struct g-type-class))
 
 (defcstruct g-type-instance
   (:class (:pointer g-type-class)))
+(defctype g-type-instance (:struct g-type-instance))
 
 (defcstruct g-type-info
   (:class-size :uint16)
@@ -117,12 +120,14 @@ Example:
   (:n-preallocs :uint16)
   (:instance-init-fn :pointer)
   (:value-table :pointer))
+(defctype g-type-info (:struct g-type-info))
 
 (defcstruct g-type-query
   (:type g-type-designator)
   (:type-name (:string :free-from-foreign nil))
   (:class-size :uint)
   (:instance-size :uint))
+(defctype g-type-query (:struct g-type-query))
 
 (defbitfield g-type-fundamental-flags
   :classed
@@ -132,11 +137,13 @@ Example:
 
 (defcstruct g-type-fundamental-info
   (:type-flags g-type-fundamental-flags))
+(defctype g-type-fundamental-info (:struct g-type-fundamental-info))
 
 (defcstruct g-interface-info
   (:interface-init :pointer)
   (:interface-finalize :pointer)
   (:interface-data :pointer))
+(defctype g-interface-info (:struct g-interface-info))
 
 (defcstruct g-type-value-table
   (:value-init :pointer)
@@ -147,6 +154,7 @@ Example:
   (:collect-value :pointer)
   (:lcopy-format (:string :free-from-foreign nil :free-to-foreign nil))
   (:lcopy-value :pointer))
+(defctype g-type-value-table (:struct g-type-value-table))
 
 (defbitfield g-type-flags
   (:abstract #. (ash 1 4))
@@ -156,8 +164,9 @@ Example:
   (:type-instance g-type-instance)
   (:ref-count :uint)
   (:data :pointer))
+(defctype %g-object (:struct %g-object))
 
-(defctype %g-initially-unowned %g-object)
+(defctype %g-initially-unowned (:struct %g-object))
 
 (defcstruct g-object-class
   (:type-class g-type-class)
@@ -171,6 +180,7 @@ Example:
   (:notify :pointer)
   (:constructed :pointer)
   (:pdummy :pointer :count 7))
+(defctype g-object-class (:struct g-object-class))
 
 (defbitfield g-param-flags
   :readable
@@ -188,6 +198,7 @@ Example:
   (:flags g-param-flags)
   (:value-type g-type-designator)
   (:owner-type g-type-designator))
+(defctype g-param-spec (:struct g-param-spec))
 
 (defcunion g-value-data
   (:int :int)
@@ -199,23 +210,28 @@ Example:
   (:float :float)
   (:double :double)
   (:pointer :pointer))
+(defctype g-value-data (:union g-value-data))
 
 (defcstruct g-value
   (:type g-type-designator)
   (:data g-value-data :count 2))
+(defctype g-value (:struct g-value))
 
 (defcstruct g-object-construct-param
   (:param-spec (:pointer g-param-spec))
   (:value (:pointer g-value)))
+(defctype g-object-construct-param (:struct g-object-construct-param))
 
 (defcstruct g-parameter
   (:name (:string :free-from-foreign nil :free-to-foreign nil))
   (:value g-value))
+(defctype g-parameter (:struct g-parameter))
 
 (defcstruct g-enum-value
   (:value :int)
   (:name (:string :free-from-foreign nil :free-to-foreign nil))
   (:nick (:string :free-from-foreign nil :free-to-foreign nil)))
+(defctype g-enum-value (:struct g-enum-value))
 
 (defcstruct g-enum-class
   (:type-class g-type-class)
@@ -223,69 +239,81 @@ Example:
   (:maximum :int)
   (:n-values :uint)
   (:values (:pointer g-enum-value)))
+(defctype g-enum-class (:struct g-enum-class))
 
 (defcstruct g-flags-value
   (:value :uint)
   (:name (:string :free-from-foreign nil :free-to-foreign nil))
   (:nick (:string :free-from-foreign nil :free-to-foreign nil)))
+(defctype g-flags-value (:struct g-flags-value))
 
 (defcstruct g-flags-class
   (:type-class g-type-class)
   (:mask :uint)
   (:n-values :uint)
   (:values (:pointer g-flags-value)))
+(defctype g-flags-class (:struct g-flags-class))
 
 (defcstruct g-param-spec-boolean
   (:parent-instance g-param-spec)
   (:default-value :boolean))
+(defctype g-param-spec-boolean (:struct g-param-spec-boolean))
 
 (defcstruct g-param-spec-char
   (:parent-instance g-param-spec)
   (:minimum :int8)
   (:maximum :int8)
   (:default-value :int8))
+(defctype g-param-spec-char (:struct g-param-spec-char))
 
 (defcstruct g-param-spec-uchar
   (:parent-instance g-param-spec)
   (:minimum :uint8)
   (:maximum :uint8)
   (:default-value :uint8))
+(defctype g-param-spec-uchar (:struct g-param-spec-uchar))
 
 (defcstruct g-param-spec-int
   (:parent-instance g-param-spec)
   (:minimum :int)
   (:maximum :int)
   (:default-value :int))
+(defctype g-param-spec-int (:struct g-param-spec-int))
 
 (defcstruct g-param-spec-uint
   (:parent-instance g-param-spec)
   (:minimum :uint)
   (:maximum :uint)
   (:default-value :uint))
+(defctype g-param-spec-uint (:struct g-param-spec-uint))
 
 (defcstruct g-param-spec-long
   (:parent-instance g-param-spec)
   (:minimum :long)
   (:maximum :long)
   (:default-value :ulong))
+(defctype g-param-spec-long (:struct g-param-spec-long))
 
 (defcstruct g-param-spec-ulong
   (:parent-instance g-param-spec)
   (:minimum :ulong)
   (:maximum :ulong)
   (:default-value :ulong))
+(defctype g-param-spec-ulong (:struct g-param-spec-ulong))
 
 (defcstruct g-param-spec-int64
   (:parent-instance g-param-spec)
   (:minimum :uint64)
   (:maximum :uint64)
   (:default-value :uint64))
+(defctype g-param-spec-int64 (:struct g-param-spec-int64))
 
 (defcstruct g-param-spec-uint64
   (:parent-instance g-param-spec)
   (:minimum :uint64)
   (:maximum :uint64)
   (:default-value :uint64))
+(defctype g-param-spec-uint64 (:struct g-param-spec-uint64))
 
 (defcstruct g-param-spec-float
   (:parent-instance g-param-spec)
@@ -293,6 +321,7 @@ Example:
   (:maximum :float)
   (:default-value :float)
   (:epsilon :float))
+(defctype g-param-spec-float (:struct g-param-spec-float))
 
 (defcstruct g-param-spec-double
   (:parent-instance g-param-spec)
@@ -300,16 +329,19 @@ Example:
   (:maximum :double)
   (:default-value :double)
   (:epsilon :double))
+(defctype g-param-spec-double (:struct g-param-spec-double))
 
 (defcstruct g-param-spec-enum
   (:parent-instance g-param-spec)
   (:enum-class (:pointer g-enum-class))
   (:default-value :int))
+(defctype g-param-spec-enum (:struct g-param-spec-enum))
 
 (defcstruct g-param-spec-flags
   (:parent-instance g-param-spec)
   (:flags-class (:pointer g-flags-class))
   (:default-value :uint))
+(defctype g-param-spec-flags (:struct g-param-spec-flags))
 
 (defcstruct g-param-spec-string
   (:parent-instance g-param-spec)
@@ -318,27 +350,34 @@ Example:
   (:cset-nth (:string :free-to-foreign nil :free-from-foreign nil))
   (:substitutor :char)
   (:flags-for-null :uint))
+(defctype g-param-spec-string (:struct g-param-spec-string))
 
 (defcstruct g-param-spec-param
   (:parent-instance g-param-spec))
+(defctype g-param-spec-param (:struct g-param-spec-param))
 
 (defcstruct g-param-spec-boxed
   (:parent-instance g-param-spec))
+(defctype g-param-spec-boxed (:struct g-param-spec-boxed))
 
 (defcstruct g-param-spec-pointer
   (:parent-instance g-param-spec))
+(defctype g-param-spec-pointer (:struct g-param-spec-pointer))
 
 (defcstruct g-param-spec-object
   (:parent-instance g-param-spec))
+(defctype g-param-spec-object (:struct g-param-spec-object))
 
 (defcstruct g-param-spec-value-array
   (:parent-instance g-param-spec)
   (:element-spec (:pointer g-param-spec))
   (:fixed-n-elements :uint))
+(defctype g-param-spec-value-array (:struct g-param-spec-value-array))
 
 (defcstruct g-param-spec-g-type
   (:parent-instance g-param-spec)
   (:types-root g-type-designator))
+(defctype g-param-spec-g-type (:struct g-param-spec-g-type))
 
 (defcstruct g-param-spec-class
   (:type-class g-type-class)
@@ -347,12 +386,14 @@ Example:
   (:value-set-default :pointer)
   (:value-validate :pointer)
   (:values-cmp :pointer))
+(defctype g-param-spec-class (:struct g-param-spec-class))
 
 (defcstruct g-closure
   (:private-data :uint32)
   (:marshal :pointer)
   (:data :pointer)
   (:notifiers :pointer))
+(defctype g-closure (:struct g-closure))
 
 (defcfun g-type-class-ref (:pointer g-type-class)
   (type g-type-designator))
@@ -941,6 +982,7 @@ Example:
   (:return-type (g-type-designator :mangled-p t))
   (:n-params :uint)
   (:param-types (:pointer (g-type-designator :mangled-p t))))
+(defctype g-signal-query (:struct g-signal-query))
 
 (defcfun g-signal-query :void
   (signal-id :uint)
@@ -961,3 +1003,4 @@ Example:
   (:type-instance g-type-instance)
   (:ref-count :uint)
   (:qdata :pointer))
+(defctype g-object-struct (:struct g-object-struct))

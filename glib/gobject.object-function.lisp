@@ -3,6 +3,7 @@
 (defcstruct object-func-ref
   (:object :pointer)
   (:fn-id :int))
+(defctype object-func-ref (:struct object-func-ref))
 
 (defmacro define-cb-methods (name return-type (&rest args))
   (flet ((make-name (control-string) (intern (format nil control-string (symbol-name name)) (symbol-package name))))
