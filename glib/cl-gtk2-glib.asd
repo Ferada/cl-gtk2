@@ -40,4 +40,4 @@
                
                (:file "gobject.boxed")
                (:file "gobject.object-function"))
-  :depends-on (:cffi :trivial-garbage :iterate :bordeaux-threads :iterate :closer-mop))
+  :depends-on (:cffi :trivial-garbage :iterate :bordeaux-threads :closer-mop))
