@@ -10,6 +10,7 @@
   (axes :pointer)
   (num-keys :int)
   (keys :pointer))
+(defctype %gdk-device (:struct %gdk-device))
 
 (define-g-boxed-cstruct gdk-device-key nil
   (keyval :uint)

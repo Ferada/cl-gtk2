@@ -11,6 +11,7 @@
   (suggested-action gdk-drag-action)
   (action gdk-drag-action)
   (start-time :uint32))
+(defctype %gdk-drag-context (:struct %gdk-drag-context))
 
 (defun %gdk-drag-context-get-protocol (context)
   (foreign-slot-value (pointer context) '%gdk-drag-context 'protocol))

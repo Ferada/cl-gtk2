@@ -2,6 +2,7 @@
 
 (defcstruct %gdk-cursor
   (cursor-type cursor-type))
+(defctype %gdk-cursor (:struct %gdk-cursor))
 
 (defun cursor-cursor-type (cursor)
   (foreign-slot-value (pointer cursor) '%gdk-cursor 'cursor-type))

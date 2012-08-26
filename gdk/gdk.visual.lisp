@@ -44,6 +44,7 @@
   (blue-mask :uint32)
   (blue-shift :int)
   (blue-prec :int))
+(defctype gdk-visual-cstruct (:struct gdk-visual-cstruct))
 
 (defmacro def-visual-accessor (slot)
   `(defun ,(intern (format nil "~A-GET-~A" (symbol-name 'gdk-visual) (symbol-name slot))) (visual)
