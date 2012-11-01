@@ -4,6 +4,7 @@
   (:domain g-quark)
   (:code :int)
   (:message (:string :free-from-foreign nil)))
+(defctype g-error (:struct g-error))
 
 (defcfun g-error-new-literal :pointer
   (domain g-quark)
