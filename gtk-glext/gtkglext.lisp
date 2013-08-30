@@ -227,7 +227,7 @@
 
 ;; OpenGL Pixmap
 
-(define-g-object-class "GdkGLPixmap" gdk-gl-pixmap (:superclass drawable :export t :interfaces ("GdkGLDrawable"))
+(define-g-object-class "GdkGLPixmap" gdk-gl-pixmap (:superclass drawable :export t :interfaces ("GdkGLDrawable") :type-initializer "gdk_gl_pixmap_get_type")
   ())
 
 (defcfun gdk-gl-pixmap-new :pointer
@@ -269,8 +269,8 @@
 
 ;; OpenGL Window
 
-(define-g-object-class "GdkGLWindow" gdk-gl-window (:superclass drawable :export t :interfaces ("GdkGLDrawable"))
-  ((:cffi window gdk-gl-window-gdk-window (g-object gdk-window) "gdk_gl_window_get_type" nil)))
+(define-g-object-class "GdkGLWindow" gdk-gl-window (:superclass drawable :export t :interfaces ("GdkGLDrawable") :type-initializer "gdk_gl_window_get_type")
+  ())
 
 (defcfun gdk-gl-window-new :pointer
   (gl-config (g-object gdk-gl-config))
