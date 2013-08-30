@@ -218,6 +218,7 @@ In this example, for every @code{class}, @code{(initialize-gobject-class-g-type 
   (ref :pointer)
   (unref :pointer)
   (get :pointer))
+(defctype g-source-callback-funcs (:struct g-source-callback-funcs))
 (defcstruct g-cond)
 (defctype g-cond (:struct g-cond))
 (defcstruct g-mutex)

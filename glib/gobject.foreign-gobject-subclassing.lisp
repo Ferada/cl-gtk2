@@ -110,6 +110,7 @@
         (methods (vtable-methods name items)))
     `(progn
        (defcstruct ,cstruct-name ,@(mapcar #'vtable-item->cstruct-item items))
+       (defctype ,cstruct-name (:struct ,cstruct-name))
        (setf (gethash ,type-name *vtables*)
              (make-vtable-description :type-name ,type-name
                                       :cstruct-name ',cstruct-name
