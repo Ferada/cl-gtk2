@@ -73,6 +73,7 @@
       (container-add window area)
       (connect-signal window "realize"
                       (lambda (w)
+                        (declare (ignore w))
                         (pushnew :key-press-mask (gdk:gdk-window-events (widget-window window)))))
       (connect-signal window "key-press-event"
                       (lambda (w e)
