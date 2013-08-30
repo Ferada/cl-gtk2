@@ -134,6 +134,8 @@
 
 ; TODO: GtkTreeModelFilter
 
+(register-object-type-implementation "LispArrayListStore" array-list-store "GObject" ("GtkTreeModel") nil)
+
 (defclass array-list-store (tree-model)
   ((items :initform (make-array 0 :adjustable t :fill-pointer t) :reader store-items)
    (columns-getters :initform (make-array 0 :adjustable t :fill-pointer t) :reader store-getters)
@@ -142,8 +144,6 @@
   (:g-type-name . "LispArrayListStore"))
 
 (export 'array-list-store)
-
-(register-object-type-implementation "LispArrayListStore" array-list-store "GObject" ("GtkTreeModel") nil)
 
 (defun store-items-count (store)
   (length (store-items store)))
@@ -445,6 +445,8 @@
   (item nil)
   (children (make-array 0 :element-type 'tree-node :adjustable t :fill-pointer t)))
 
+(register-object-type-implementation "LispTreeStore" tree-lisp-store "GObject" ("GtkTreeModel") nil)
+
 (defclass tree-lisp-store (tree-model)
   ((columns-getters :initform (make-array 0 :adjustable t :fill-pointer t) :reader tree-lisp-store-getters)
    (columns-types :initform (make-array 0 :adjustable t :fill-pointer t) :reader tree-lisp-store-types)
@@ -456,8 +458,6 @@
 
 (defmethod initialize-instance :after ((object tree-lisp-store) &key &allow-other-keys)
   (setf (tree-node-tree (tree-lisp-store-root object)) object))
-
-(register-object-type-implementation "LispTreeStore" tree-lisp-store "GObject" ("GtkTreeModel") nil)
 
 (defun map-subtree (node fn)
   (funcall fn node)

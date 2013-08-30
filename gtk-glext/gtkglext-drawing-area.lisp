@@ -1,5 +1,7 @@
 (in-package :gtkglext)
 
+(register-object-type-implementation "GtkGLDrawingArea" gl-drawing-area "GtkDrawingArea" nil nil)
+
 (defclass gl-drawing-area (drawing-area)
   ((on-expose :initarg :on-expose :initform nil :accessor gl-drawing-area-on-expose)
    (on-init :initarg :on-init :initform nil :accessor gl-drawing-area-on-init)
@@ -61,8 +63,6 @@
                                         nil
                                         :rgba-type)
     (warn "set gl capability for ~A (with ~A) failed~%" widget *gl-config*)))
-
-(register-object-type-implementation "GtkGLDrawingArea" gl-drawing-area "GtkDrawingArea" nil nil)
 
 (defmethod initialize-instance :after ((widget gl-drawing-area) &key &allow-other-keys)
   (connect-signal widget "realize" #'gl-drawing-area-realize)
