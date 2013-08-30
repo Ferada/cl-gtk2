@@ -43,13 +43,14 @@
       (when (zerop n)
         (warn-unknown-gtype name)
         (setf n nil))
-      (let ((type (make-gtype :name (copy-seq name) :%id n)))
+      (let ((type (make-gtype :name (copy-seq (the string name)) :%id n)))
         (setf (gethash n *id-to-gtype*) type
               (gethash name *name-to-gtype*) type)
         (return-from gtype-from-name type)))))
 
 (defun gtype-from-id (id)
   (declare (optimize (safety 0) (speed 3)))
+  (declare (integer id))
   (when (zerop id) (return-from gtype-from-id nil))
   (bt:with-lock-held (*gtype-lock*)
     (let ((type (gethash id *id-to-gtype*)))
