@@ -157,7 +157,7 @@
 
 (export 'entry-completion-insert-action-text)
 
-(defcfun (entry-copmletion-insert-action-markup "gtk_entry_completion_insert_action_markup") :void
+(defcfun (entry-completion-insert-action-markup "gtk_entry_completion_insert_action_markup") :void
   (completion (g-object entry-completion))
   (index :int)
   (markup :string))
